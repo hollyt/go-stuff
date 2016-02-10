@@ -1,6 +1,7 @@
 package main
 
 import (
+    "crypto/md5"
     "flag"
     "fmt"
     "io/ioutil"
@@ -41,6 +42,16 @@ func main() {
     responseBytes, err := ioutil.ReadAll(response.Body)
     if err != nil {
         fmt.Println("Error getting response body: ", err)
+        return
     }
     fmt.Println(string(responseBytes))
+
+    // Hash the url
+    hashed := md5.New()
+    hashed.Write([]byte(site))
+    hashed_string := hashed.Sum(nil)
+
+    // Testing
+    fmt.Println("Original url: ", site)
+    fmt.Printf("Hashed url: %x\n", hashed_string)
 }
